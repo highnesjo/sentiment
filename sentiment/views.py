@@ -3,7 +3,7 @@ from django.http import HttpResponse
 
 from textblob import TextBlob
 import sys, tweepy
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 
 
@@ -15,8 +15,6 @@ def index(request):
 def result(request):
     if request.method == 'POST':
 
-        # def percentage(part, whole):
-        #     return 100 * float(part)/float(whole)
 
         ConsumerKey = "khpw1yAorQvLakZNBDXdaaI7X"
         ConsumerSecret = "7Gr5fnrAEZ75dLQz8S47bKFAMG1NjxmcKxl9dlup5tDoC5ae6F"
@@ -28,7 +26,7 @@ def result(request):
         api = tweepy.API(auth)
 
         SearchTerm = request.POST.get('searchkey')
-        NoOfSearchTerms = 20
+        NoOfSearchTerms = 200
 
         Tweets = tweepy.Cursor(api.search, q=SearchTerm).items(NoOfSearchTerms)
 
@@ -52,22 +50,14 @@ def result(request):
             elif (analysis.sentiment.polarity == 0):
                 neutral += 1
 
-        # positive = percentage(positive, NoOfSearchTerms)
-        # negative = percentage(negative, NoOfSearchTerms)
-        # neutral = percentage(neutral, NoOfSearchTerms)
-        # polarity = percentage(polarity, NoOfSearchTerms)
-
-        positive = format(positive, '.2f')
-        negative = format(negative, '.2f')
-        neutral = format(neutral, '.2f')
 
         print("How People are Reacting on " + SearchTerm + " by Analyzing " + str(NoOfSearchTerms) + " Tweets.")
 
         if (polarity == 0):
             print("neutral")
-        elif (polarity < 0.00):
+        elif (polarity < 0):
             print("negative")
-        elif (polarity > 0.00):
+        elif (polarity > 0):
             print("positive")
 
       
